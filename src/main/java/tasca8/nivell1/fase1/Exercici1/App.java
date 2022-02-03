@@ -1,6 +1,6 @@
-package tasca8.nivell1.Exercici1;
+package tasca8.nivell1.fase1.Exercici1;
 
-import java.nio.file.DirectoryStream.Filter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
