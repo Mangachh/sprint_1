@@ -20,7 +20,14 @@
     <jacoco.unit-tests.limit.class-complexity>20</jacoco.unit-tests.limit.class-complexity>
     <jacoco.unit-tests.limit.method-complexity>5</jacoco.unit-tests.limit.method-complexity>
   </properties>
-  <dependencies>
+  <dependencies>    
+    <!-- Esto es para el hamcrest, creo que tiene que estar arriba de juni-->
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest</artifactId>
+      <version>2.2</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -33,6 +40,7 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+    <!-- Esto es para tener el ParametizedTest en Junit. OJU! mirar que la versión sea la misma que Junit-->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
