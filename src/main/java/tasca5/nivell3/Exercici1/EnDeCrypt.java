@@ -30,19 +30,29 @@ public class EnDeCrypt {
     private static final String CRYPT_ALG = "AES/CBC/PKCS5Padding";
     private static final String PASS = "pass_de_prueba";
     private static final String SALT = "ssssssss";
-
-    public static void encryptFile(final SecretKey key, final IvParameterSpec iv,
-            final String inputPath, final String outputPath) {
+    
+    private static Cipher getCipher(final SecretKey key, final IvParameterSpec iv, int mode) {
         Cipher cipher = null;
         try {
             cipher = Cipher.getInstance(CRYPT_ALG);
-            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e1) {
-            e1.printStackTrace();
+            cipher.init(mode, key, iv);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            System.err.println(e.getMessage());
         } catch (InvalidKeyException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return cipher;
+    }
+
+    public static void encryptFile(final SecretKey key, final IvParameterSpec iv,
+            final String inputPath, final String outputPath) {
+
+        Cipher cipher = getCipher(key, iv, Cipher.ENCRYPT_MODE);
+        if (cipher == null) {
+            return;
         }
 
         try (FileInputStream inputStream = new FileInputStream(inputPath)) {
@@ -68,21 +78,16 @@ public class EnDeCrypt {
 
     public static void deCryptFile(final SecretKey key, final IvParameterSpec iv,
             final String cryptedFile, final String decryptedFile) {
-        Cipher cipher = null;
-        try {
-            cipher = Cipher.getInstance(CRYPT_ALG);
-            cipher.init(Cipher.DECRYPT_MODE, key, iv);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e1) {
-            e1.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
+
+        Cipher cipher = getCipher(key, iv, Cipher.DECRYPT_MODE);
+        if (cipher == null) {
+            return;
         }
 
         try (FileInputStream inputStream = new FileInputStream(cryptedFile)) {
-            OutputStreamWriter outputStream = new OutputStreamWriter( new FileOutputStream(decryptedFile), StandardCharsets.UTF_8);
-            //FileOutputStream outputStream = new FileOutputStream(decryptedFile);
+            OutputStreamWriter outputStream = new OutputStreamWriter(new FileOutputStream(decryptedFile),
+                    StandardCharsets.UTF_8);
+            // FileOutputStream outputStream = new FileOutputStream(decryptedFile);
             byte[] buffer = new byte[64];
             int bytesRead;
             while ((bytesRead = inputStream.read(buffer)) != -1) {
@@ -112,7 +117,7 @@ public class EnDeCrypt {
     }
 
     // metemos todo esto a mano, obviamente en producción deberíamos generar
-    // contraseñas y todo eso.
+    // contraseñas o ponerlas como input
     public static SecretKeySpec getSecretKey() {
         SecretKeyFactory factory;
         try {
@@ -122,11 +127,9 @@ public class EnDeCrypt {
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
             return secretKey;
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         } catch (InvalidKeySpecException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         return null;

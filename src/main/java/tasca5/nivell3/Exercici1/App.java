@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import javax.crypto.spec.IvParameterSpec;
+
 public class App {
 
     /* 
@@ -30,16 +32,24 @@ public class App {
             String pathToWrite = readProperty(PATH_WRITE_NAME);
             String encPath = readProperty(PATH_ENCRYPT_NAME);
             String decPath = readProperty(PATH_DECRYPT_NAME);
+
+            //creamos la lista y escribimos en un text
+            //TODO: en producción, el archivo debe ser eliminado
             ArrayList<String> directories = d.listTreeDirectories(pathToRead, 1);
             d.saveListToTxt(directories, pathToWrite);
-            EnDeCrypt.encryptFile(EnDeCrypt.getSecretKey(), EnDeCrypt.generateIv(), pathToWrite, encPath);
-            EnDeCrypt.deCryptFile(EnDeCrypt.getSecretKey(), EnDeCrypt.generateIv(), encPath, decPath);
+
+            //cargamos el iv, lo genermos procedural
+            IvParameterSpec iv = EnDeCrypt.generateIv();
+
+            //encriptamos y desencriptamos
+            EnDeCrypt.encryptFile(EnDeCrypt.getSecretKey(), iv, pathToWrite, encPath);
+            EnDeCrypt.deCryptFile(EnDeCrypt.getSecretKey(), iv, encPath, decPath);
         } catch (NullPointerException e) {
             System.err.println(e.getMessage());
         }
         
     }
-
+    
     private static String readProperty(final String propName) throws NullPointerException {
         String propText = "";
         try (InputStream input = App.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME)) {
