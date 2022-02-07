@@ -21,9 +21,11 @@ public class App {
     private static final String PATH_DECRYPT_NAME = "dencryptedPath";
     private static final String PROPERTIES_FILE_NAME = "tasca5ex2.properties";
 
+    // para cambiar las rutas, usar el archivo de preferencias.
     public static void main(String[] args) {
         DirList d = new DirList();
-        try{
+        try {
+            //utilizamos el archivo de properties para cargarlo todo
             String pathToRead = readProperty(PATH_READ_NAME);
             String pathToWrite = readProperty(PATH_WRITE_NAME);
             String encPath = readProperty(PATH_ENCRYPT_NAME);

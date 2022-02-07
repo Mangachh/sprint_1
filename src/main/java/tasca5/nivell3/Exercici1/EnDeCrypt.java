@@ -13,6 +13,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
+import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -81,17 +82,20 @@ public class EnDeCrypt {
 
         try (FileInputStream inputStream = new FileInputStream(cryptedFile)) {
             OutputStreamWriter outputStream = new OutputStreamWriter( new FileOutputStream(decryptedFile), StandardCharsets.UTF_8);
+            //FileOutputStream outputStream = new FileOutputStream(decryptedFile);
             byte[] buffer = new byte[64];
             int bytesRead;
             while ((bytesRead = inputStream.read(buffer)) != -1) {
                 byte[] output = cipher.update(buffer, 0, bytesRead);
                 if (output != null) {
-                    outputStream.write(new String(output));
+                    System.out.println(new String(output, StandardCharsets.UTF_8));
+                    outputStream.write(new String(output, StandardCharsets.UTF_8));
                 }
             }
+            System.out.println("byeeeeeeeeeeeeeee\n");
             byte[] outputBytes = cipher.doFinal();
             if (outputBytes != null) {
-                outputStream.write(new String(outputBytes));
+                outputStream.write(new String(outputBytes, StandardCharsets.UTF_8));
             }
             inputStream.close();
             outputStream.close();
