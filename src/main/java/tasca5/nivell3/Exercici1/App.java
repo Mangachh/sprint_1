@@ -1,4 +1,4 @@
-package tasca5.nivell2.Exercici1;
+package tasca5.nivell3.Exercici1;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,20 +8,17 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 public class App {
-    /*
-     * Exercici 3. Executi l'exercici anterior guardant a un fitxer txt el resultat.
-     */
-    /*
-     * Exercici 1. Executa l'exercici 3 del nivell anterior parametritzant tots els
-     * mètodes en un file de configuració. Pot utilitzar un file Java Properties, o
-     * bé la llibreria Apache Commons Configuration si ho desitja. De l'exercici
-     * anterior, parametritzi el següent:
-     * Directori a llegir
-     * Nom i directori del fitxer txt resultant
-     */
+
+    /* 
+     * Exercici 1. Crea una utilitat que encripti i desencripti els fitxers resultants dels nivells anteriors.
+     * Utilitza l'algorisme AES en manera de treball ECB o CBC amb mètode d'ompliment PKCS5Padding. 
+     * Es pot emprar javax.crypto o bé org.apache.commons.crypto.
+     */    
 
     private static final String PATH_READ_NAME = "pathToRead";
     private static final String PATH_WRITE_NAME = "pathToSave";
+    private static final String PATH_ENCRYPT_NAME = "encryptedPath";
+    private static final String PATH_DECRYPT_NAME = "dencryptedPath";
     private static final String PROPERTIES_FILE_NAME = "tasca5ex2.properties";
 
     public static void main(String[] args) {
@@ -29,8 +26,12 @@ public class App {
         try{
             String pathToRead = readProperty(PATH_READ_NAME);
             String pathToWrite = readProperty(PATH_WRITE_NAME);
+            String encPath = readProperty(PATH_ENCRYPT_NAME);
+            String decPath = readProperty(PATH_DECRYPT_NAME);
             ArrayList<String> directories = d.listTreeDirectories(pathToRead, 1);
             d.saveListToTxt(directories, pathToWrite);
+            EnDeCrypt.encryptFile(EnDeCrypt.getSecretKey(), EnDeCrypt.generateIv(), pathToWrite, encPath);
+            EnDeCrypt.deCryptFile(EnDeCrypt.getSecretKey(), EnDeCrypt.generateIv(), encPath, decPath);
         } catch (NullPointerException e) {
             System.err.println(e.getMessage());
         }
@@ -55,6 +56,4 @@ public class App {
 
         return propText;
     }
-
-    
 }
