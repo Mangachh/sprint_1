@@ -11,7 +11,12 @@ public class ArrayOutTest {
 
     @Test
     void checkOutOfBounds() {
-        Throwable thrown = Assertions.catchThrowable(() -> System.out.println(numbers[12]));
-        Assertions.assertThat(thrown).isInstanceOf(ArrayIndexOutOfBoundsException.class).hasMessageContaining("12");
+        //Throwable thrown = Assertions.catchThrowable(() -> System.out.println(numbers[12]));
+        //Assertions.assertThat(thrown).isInstanceOf(ArrayIndexOutOfBoundsException.class).hasMessageContaining("12");
+        Assertions.assertThatExceptionOfType(ArrayIndexOutOfBoundsException.class).isThrownBy(() -> this.doIndexException());
+    }
+
+    void doIndexException() {
+        System.out.println(numbers[12]);
     }
 }
