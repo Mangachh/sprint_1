@@ -1,10 +1,13 @@
 package tasca6.nivell1.Exercici4;
 
 import java.util.ArrayList;
+
 public class App {
-    /* Exercici 3. Modifica el punt anterior de manera que 
-     * un dels arguments de f() no sigui parametritzat.*/
-    
+    /*
+     * Exercici 4. Modifica l'anterior apartat de manera que els arguments que rep
+     * f() sigui una llista d'arguments de variable indefinida.
+     */
+
     public static void main(String[] args) {
         GenericMethods gen = new GenericMethods();
         gen.f(3, "Hola");
