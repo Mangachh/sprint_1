@@ -2,7 +2,7 @@ package tasca7.nivell2.Exercici1;
 
 
 // cambiar path manualmente
-@AnotJson(path="C:/Cosas/test.json")
+@AnotJson(path="test.json")
 public class TestClass {
     
     private String name;
