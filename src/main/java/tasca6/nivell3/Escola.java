@@ -3,29 +3,16 @@ package tasca6.nivell3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Escola<T> {
+public class Escola {
 
-    private List<T> items;
+    private List<?> items;
 
-    public Escola(final List<T> items) {
+    public Escola(final List<?> items) {
         this.items = items;
-    }
+    }   
 
-    public Escola() {
-        items = new ArrayList<T>();
-    }
-
-    public List<T> getItems() {
+    public List<?> getItems() {
         return this.items;
-    }
-
-    public void addItem(T item) {
-        this.items.add(item);
-    }
-
-    
-
-
-    
+    }   
     
 }

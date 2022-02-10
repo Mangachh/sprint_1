@@ -17,8 +17,15 @@ public class App {
 
     public static void main(String[] args) {
         List<String> tempList = Arrays.asList("Uno", "Dos", "Tres", "Cuatro");
-        Escola esc = new Escola(tempList);        
+        Escola esc = new Escola(tempList);
+        List<Escola> escoles = new ArrayList<Escola>();
+        List<Integer> tempList2 = Arrays.asList(7, 14, 22, 5);
+        escoles.add(esc);
+        escoles.add(new Escola(tempList2));
+
         metodeGeneric1(esc);
+        System.out.println("\n-------------------\n");
+        metodeGeneric2(escoles);
     }
 
     private static void metodeGeneric1(final Escola esc) {
@@ -46,11 +53,28 @@ public class App {
 
         System.out.println(
                 "No podem agafar cap item de Escola.Llista<?> ja que no sabem quin tipus retorna (error de compilació)");
-        //String a = esc.getItems().get(0);       
+        // String a = esc.getItems().get(0);
     }
-    
-    private static void metodeGeneric2() {
-        
+
+    private static void metodeGeneric2(List<Escola> escoles) {
+        System.out.println("Cridem al metodeGeneric2 on passem llista d'instancies de Escola");
+        System.out.print("Podem veure la mida de la llista: ");
+        System.out.println(escoles.size());
+        System.out.println(
+                "Podem aprofitar el \"metodeGeneric1\" per passar cada instancia d'escola i operar amb ella ja que la llista ens permet agafar les instancies sense cap problema.");
+        System.out.println("\n-------------------\n");
+        System.out.println("Probem de passar una de les instancies al metodeGeneric1");
+        metodeGeneric1(escoles.get(1));
+        System.out.println("\n-------------------\n");
+        System.out.println("Podem també afegir i treure membres a la llista");
+        List<String> temp = Arrays.asList("Tresss", "lalaalal", "pepepepe");
+        System.out.println(String.format("Membres originals: %d", escoles.size()));
+        escoles.add(new Escola(temp));
+        System.out.println(String.format("Membres després d'afegir-ne un de nou: %d", escoles.size()));
+        escoles.remove(0);
+        System.out.println(String.format("Membres després d'eliminar-ne un: %d", escoles.size()));
+        System.out.println(
+                "\nEn definitiva, el metodeGeneric2 que treballa amb List<Escola<?>> permet fer totes les operacions d'una llista ja que tots els membres son de la mateixa classe. Per tant, es diferencia del metodeGeneric1 on cada llista podía tenir membres de diferents classes i, per tant, la operativat estaba limitada.");
     }
 
 }
